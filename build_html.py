@@ -202,9 +202,11 @@ footer b{color:var(--ink)}
   </div>
 </div></section>
 
+<div id="modelSlot"></div>
+
 <!-- 筛选 -->
 <section id="screen"><div class="wrap">
-  <div class="sec-head"><span class="no">01</span><h2>62 案例重筛结果</h2><span class="en">/ Screening</span></div>
+  <div class="sec-head"><span class="no">02</span><h2>62 案例重筛结果</h2><span class="en">/ Screening</span></div>
   <p class="lead">用上述标准把 62 个候选案例判为<b>核心 / 边界 / 排除</b>。判定标记：✅ 满足 · ⚠️ 边界 · ❌ 不满足。</p>
   <div class="funnel">
     <div class="donut-wrap"><svg id="donut" width="280" height="280" viewBox="0 0 280 280"></svg></div>
@@ -221,14 +223,14 @@ footer b{color:var(--ink)}
 
 <!-- 核心样本 -->
 <section id="core"><div class="wrap">
-  <div class="sec-head"><span class="no">02</span><h2>核心样本看板</h2><span class="en">/ 36 Core Cases</span></div>
+  <div class="sec-head"><span class="no">03</span><h2>核心样本看板</h2><span class="en">/ 36 Core Cases</span></div>
   <p class="lead">以下 36 个案例同时跨越"小游戏 + 爆款 + 世界级"三道门槛，按综合分由高到低静态陈列。</p>
   <div class="grid-cases" id="caseGrid"></div>
 </div></section>
 
 <!-- 数据 -->
 <section id="data"><div class="wrap">
-  <div class="sec-head"><span class="no">03</span><h2>数据可视化</h2><span class="en">/ Charts</span></div>
+  <div class="sec-head"><span class="no">04</span><h2>数据可视化</h2><span class="en">/ Charts</span></div>
   <div class="charts">
     <div class="chart"><h4>玩法母体分布（全 62 例）</h4><div class="ch-sub">按核心玩法母体统计候选案例数量</div><div id="chartGp"></div></div>
     <div class="chart"><h4>综合分分布</h4><div class="ch-sub">核心样本综合分（百分制）区间分布</div><div id="chartScore"></div></div>
@@ -239,28 +241,31 @@ footer b{color:var(--ink)}
 
 <!-- 边界 -->
 <section id="bnd"><div class="wrap">
-  <div class="sec-head"><span class="no">04</span><h2>边界样本（23 个）</h2><span class="en">/ Boundary</span></div>
+  <div class="sec-head"><span class="no">05</span><h2>边界样本（23 个）</h2><span class="en">/ Boundary</span></div>
   <p class="lead">边界样本不是"失败"，而是"不纯"——它们极具参考价值，但必须在说明其不纯之处后才可用于立项参照，避免幸存者偏差。</p>
   <div class="bnd-grid" id="bndGrid"></div>
 </div></section>
 
 <!-- 区域 -->
 <section id="region"><div class="wrap">
-  <div class="sec-head"><span class="no">05</span><h2>区域机会地图</h2><span class="en">/ Regions</span></div>
+  <div class="sec-head"><span class="no">06</span><h2>区域机会地图</h2><span class="en">/ Regions</span></div>
   <p class="lead">不贴国家标签，而用生态差异指导产品改造。9 个区域市场的入口、社交关系、适合验证的玩法与结构风险。</p>
   <div class="reg-grid" id="regGrid"></div>
 </div></section>
 
 <!-- 结论 -->
 <section id="concl"><div class="wrap">
-  <div class="sec-head"><span class="no">06</span><h2>七大核心结论</h2><span class="en">/ Conclusions</span></div>
+  <div class="sec-head"><span class="no">07</span><h2>七大核心结论</h2><span class="en">/ Conclusions</span></div>
   <p class="lead">以下结论只来自 36 个核心样本，证据层级：机构白皮书（S047–S063）+ 社媒一手评价 + 平台实时数据。</p>
   <div class="concl" id="conclGrid"></div>
 </div></section>
 
+<!-- 机会组合（注入槽） -->
+<div id="oppSlot"></div>
+
 <!-- 立项 -->
 <section id="prio"><div class="wrap">
-  <div class="sec-head"><span class="no">07</span><h2>下一代立项指引</h2><span class="en">/ Where to bet</span></div>
+  <div class="sec-head"><span class="no">09</span><h2>下一代立项指引</h2><span class="en">/ Where to bet</span></div>
   <div class="prio" id="prioGrid"></div>
 </div></section>
 

@@ -338,7 +338,7 @@ html=html.replace('<div class="prio" id="prioGrid"></div>', '<div class="prio" i
 html=re.sub(r'<script>\s*const D = JSON\.parse.*?</script>', '', html, flags=re.S)
 
 # ---------- 新增 6 区块 + 导航 + 样式 + 来源筛选脚本 ----------
-NAVADD='<a href="#model">评分</a><a href="#opp">机会</a><a href="#task">范畴</a><a href="#src">来源</a><a href="#dd">拆解</a><a href="#fail">失败</a>'
+NAVADD='<a href="#model">评分</a><a href="#opp">机会</a><a href="#dd">拆解</a><a href="#fail">失败</a><a href="#src">来源</a>'
 CSSADD='''
 /* NEW SECTIONS */
 .model-wrap{display:grid;gap:12px}
@@ -399,35 +399,37 @@ CSSADD='''
 .tc-foot b{color:var(--teal)}
 @media(max-width:900px){.tc-tier-grid{grid-template-columns:1fr}}
 '''
-SECS=f'''
+MODEL_SEC=f'''
 <section id="model"><div class="wrap">
-  <div class="sec-head"><span class="no">08</span><h2>跨文化爆款潜力评分模型</h2><span class="en">/ Scoring Model</span></div>
+  <div class="sec-head"><span class="no">01</span><h2>跨文化爆款潜力评分模型</h2><span class="en">/ Scoring Model</span></div>
   <p class="lead">核心样本综合分（百分制）由下方 7 个维度加权得出（权重和=100）。该模型是"小游戏 + 爆款 + 世界级"三标准的<b>量化落地</b>，所有案例据此打分。</p>
   <div class="model-wrap">{model_html}</div>
 </div></section>
-
+'''
+OPP_SEC=f'''
 <section id="opp"><div class="wrap">
-  <div class="sec-head"><span class="no">09</span><h2>机会组合（{len(opps)} 个）</h2><span class="en">/ Opportunity Portfolio</span></div>
+  <div class="sec-head"><span class="no">08</span><h2>机会组合（{len(opps)} 个）</h2><span class="en">/ Opportunity Portfolio</span></div>
   <p class="lead">由"核心母体 × 放大器组合 × 生态 × 普适情绪"构成的立项机会矩阵。优先级 A 为最优先验证。</p>
   <div class="opp-grid">{opp_html}</div>
 </div></section>
-
-<section id="src"><div class="wrap">
-  <div class="sec-head"><span class="no">10</span><h2>来源索引（{len(sources)} 条）</h2><span class="en">/ Source Index</span></div>
-  <p class="lead">全部一手与第三方来源，按可信度标注。可搜索、可按类别筛选（需 JS；无 JS 时显示全部）。</p>
-  {src_html}
-</div></section>
-
+'''
+SECS=f'''
 <section id="dd"><div class="wrap">
-  <div class="sec-head"><span class="no">11</span><h2>高潜案例深度拆解</h2><span class="en">/ Deep Dives</span></div>
+  <div class="sec-head"><span class="no">10</span><h2>高潜案例深度拆解</h2><span class="en">/ Deep Dives</span></div>
   <p class="lead">从首次体验到跨文化迁移的逐层拆解，重点标注"真正可迁移机制"与"不应照抄"。</p>
   <div class="dd-grid">{dd_html}</div>
 </div></section>
 
 <section id="fail"><div class="wrap">
-  <div class="sec-head"><span class="no">12</span><h2>跨文化迁移失败与受阻</h2><span class="en">/ Failure & Blocked</span></div>
+  <div class="sec-head"><span class="no">11</span><h2>跨文化迁移失败与受阻</h2><span class="en">/ Failure & Blocked</span></div>
   <p class="lead">不是"失败案例库"，而是迁移受阻的结构性原因——避免立项时重蹈覆辙。</p>
   <div class="fail-grid">{fail_html}</div>
+</div></section>
+
+<section id="src"><div class="wrap">
+  <div class="sec-head"><span class="no">12</span><h2>来源索引（{len(sources)} 条）</h2><span class="en">/ Source Index</span></div>
+  <p class="lead">全部一手与第三方来源，按可信度标注。可搜索、可按类别筛选（需 JS；无 JS 时显示全部）。</p>
+  {src_html}
 </div></section>
 '''
 SRCJS=r'''
@@ -449,6 +451,8 @@ SRCJS=r'''
 '''
 html=html.replace('<a href="#prio">立项</a>', '<a href="#prio">立项</a>'+NAVADD)
 html=html.replace('</style>', CSSADD+'\n</style>')
+html=html.replace('<div id="modelSlot"></div>', MODEL_SEC)
+html=html.replace('<div id="oppSlot"></div>', OPP_SEC)
 html=html.replace('<footer>', SECS+'\n<footer>')
 html=html.replace('</body>', '<script>'+SRCJS+'</script>\n</body>')
 
