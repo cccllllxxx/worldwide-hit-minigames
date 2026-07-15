@@ -412,26 +412,20 @@ SECS=f'''
   <div class="opp-grid">{opp_html}</div>
 </div></section>
 
-<section id="task"><div class="wrap">
-  <div class="sec-head"><span class="no">10</span><h2>研究范畴与已交付</h2><span class="en">/ Research Scope</span></div>
-  <p class="lead">底表 05_研究任务 覆盖的全部研究范畴与已交付工作，构成本结论的研究基底。</p>
-  {task_html}
-</div></section>
-
 <section id="src"><div class="wrap">
-  <div class="sec-head"><span class="no">11</span><h2>来源索引（{len(sources)} 条）</h2><span class="en">/ Source Index</span></div>
+  <div class="sec-head"><span class="no">10</span><h2>来源索引（{len(sources)} 条）</h2><span class="en">/ Source Index</span></div>
   <p class="lead">全部一手与第三方来源，按可信度标注。可搜索、可按类别筛选（需 JS；无 JS 时显示全部）。</p>
   {src_html}
 </div></section>
 
 <section id="dd"><div class="wrap">
-  <div class="sec-head"><span class="no">12</span><h2>高潜案例深度拆解</h2><span class="en">/ Deep Dives</span></div>
+  <div class="sec-head"><span class="no">11</span><h2>高潜案例深度拆解</h2><span class="en">/ Deep Dives</span></div>
   <p class="lead">从首次体验到跨文化迁移的逐层拆解，重点标注"真正可迁移机制"与"不应照抄"。</p>
   <div class="dd-grid">{dd_html}</div>
 </div></section>
 
 <section id="fail"><div class="wrap">
-  <div class="sec-head"><span class="no">13</span><h2>跨文化迁移失败与受阻</h2><span class="en">/ Failure & Blocked</span></div>
+  <div class="sec-head"><span class="no">12</span><h2>跨文化迁移失败与受阻</h2><span class="en">/ Failure & Blocked</span></div>
   <p class="lead">不是"失败案例库"，而是迁移受阻的结构性原因——避免立项时重蹈覆辙。</p>
   <div class="fail-grid">{fail_html}</div>
 </div></section>
