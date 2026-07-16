@@ -137,9 +137,9 @@ footer b{color:var(--ink)}
 <nav><div class="nav-inner">
   <span class="brand">🎮 世界级爆款小游戏 · 结论看板</span>
   <div class="nav-links">
-    <a href="#topconcl">结论</a><a href="#def">定义</a><a href="#screen">筛选</a><a href="#core">核心样本</a>
-    <a href="#data">数据</a><a href="#bnd">边界</a><a href="#region">区域</a>
-    <a href="#concl">结论</a><a href="#prio">立项</a>
+    <a href="#topconcl">结论速览</a><a href="#def">定义</a><a href="#model">评分模型</a><a href="#screen">筛选</a><a href="#core">核心样本</a>
+    <a href="#data">数据</a><a href="#bnd">边界</a><a href="#region">区域</a><a href="#opp">机会组合</a>
+    <a href="#dd">深度拆解</a><a href="#fail">失败与受阻</a><a href="#concl">核心结论</a><a href="#prio">下一步</a><a href="#src">来源</a>
   </div>
 </div></nav>
 
@@ -253,21 +253,14 @@ footer b{color:var(--ink)}
   <div class="reg-grid" id="regGrid"></div>
 </div></section>
 
-<!-- 结论 -->
-<section id="concl"><div class="wrap">
-  <div class="sec-head"><span class="no">07</span><h2>七大核心结论</h2><span class="en">/ Conclusions</span></div>
-  <p class="lead">以下结论只来自 36 个核心样本，证据层级：机构白皮书（S047–S063）+ 社媒一手评价 + 平台实时数据。</p>
-  <div class="concl" id="conclGrid"></div>
-</div></section>
-
 <!-- 机会组合（注入槽） -->
 <div id="oppSlot"></div>
 
-<!-- 立项 -->
-<section id="prio"><div class="wrap">
-  <div class="sec-head"><span class="no">09</span><h2>下一代立项指引</h2><span class="en">/ Where to bet</span></div>
-  <div class="prio" id="prioGrid"></div>
-</div></section>
+<!-- 高潜案例深度拆解（注入槽） -->
+<div id="ddSlot"></div>
+
+<!-- 跨文化迁移失败与受阻（注入槽） -->
+<div id="failSlot"></div>
 
 <footer><div class="wrap">
   <p><b>方法论与置信度</b> · 核心样本 36 例的判定有机构白皮书与多平台数据交叉支撑，置信度高；研究底表已定稿为 <code>v3_白皮书来源.xlsx</code>。</p>

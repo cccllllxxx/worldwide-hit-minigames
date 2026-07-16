@@ -332,13 +332,11 @@ html=html.replace('<div id="chartBnd"></div>', '<div id="chartBnd">'+chartBnd+'<
 html=html.replace('<div id="chartEco"></div>', '<div id="chartEco">'+chartEco+'</div>')
 html=html.replace('<div class="bnd-grid" id="bndGrid"></div>', '<div class="bnd-grid" id="bndGrid">'+bndGrid+'</div>')
 html=html.replace('<div class="reg-grid" id="regGrid"></div>', '<div class="reg-grid" id="regGrid">'+regGrid+'</div>')
-html=html.replace('<div class="concl" id="conclGrid"></div>', '<div class="concl" id="conclGrid">'+conclGrid+'</div>')
-html=html.replace('<div class="prio" id="prioGrid"></div>', '<div class="prio" id="prioGrid">'+prioGrid+'</div>')
 # 3) 移除动态 <script>（避免其覆盖静态内容 / 在无 JS 环境无意义）
 html=re.sub(r'<script>\s*const D = JSON\.parse.*?</script>', '', html, flags=re.S)
 
 # ---------- 新增 6 区块 + 导航 + 样式 + 来源筛选脚本 ----------
-NAVADD='<a href="#model">评分</a><a href="#opp">机会</a><a href="#dd">拆解</a><a href="#fail">失败</a><a href="#src">来源</a>'
+NAVADD=''
 CSSADD='''
 /* NEW SECTIONS */
 .model-wrap{display:grid;gap:12px}
@@ -408,22 +406,35 @@ MODEL_SEC=f'''
 '''
 OPP_SEC=f'''
 <section id="opp"><div class="wrap">
-  <div class="sec-head"><span class="no">08</span><h2>机会组合（{len(opps)} 个）</h2><span class="en">/ Opportunity Portfolio</span></div>
+  <div class="sec-head"><span class="no">07</span><h2>机会组合（{len(opps)} 个）</h2><span class="en">/ Opportunity Portfolio</span></div>
   <p class="lead">由"核心母体 × 放大器组合 × 生态 × 普适情绪"构成的立项机会矩阵。优先级 A 为最优先验证。</p>
   <div class="opp-grid">{opp_html}</div>
 </div></section>
 '''
-SECS=f'''
+DD_SEC=f'''
 <section id="dd"><div class="wrap">
-  <div class="sec-head"><span class="no">10</span><h2>高潜案例深度拆解</h2><span class="en">/ Deep Dives</span></div>
+  <div class="sec-head"><span class="no">08</span><h2>高潜案例深度拆解</h2><span class="en">/ Deep Dives</span></div>
   <p class="lead">从首次体验到跨文化迁移的逐层拆解，重点标注"真正可迁移机制"与"不应照抄"。</p>
   <div class="dd-grid">{dd_html}</div>
 </div></section>
-
+'''
+FAIL_SEC=f'''
 <section id="fail"><div class="wrap">
-  <div class="sec-head"><span class="no">11</span><h2>跨文化迁移失败与受阻</h2><span class="en">/ Failure & Blocked</span></div>
+  <div class="sec-head"><span class="no">09</span><h2>跨文化迁移失败与受阻</h2><span class="en">/ Failure & Blocked</span></div>
   <p class="lead">不是"失败案例库"，而是迁移受阻的结构性原因——避免立项时重蹈覆辙。</p>
   <div class="fail-grid">{fail_html}</div>
+</div></section>
+'''
+SECS=f'''
+<section id="concl"><div class="wrap">
+  <div class="sec-head"><span class="no">10</span><h2>七大核心结论</h2><span class="en">/ Conclusions</span></div>
+  <p class="lead">以下结论只来自 36 个核心样本，证据层级：机构白皮书（S047–S063）+ 社媒一手评价 + 平台实时数据。</p>
+  <div class="concl" id="conclGrid"></div>
+</div></section>
+
+<section id="prio"><div class="wrap">
+  <div class="sec-head"><span class="no">11</span><h2>下一代立项指引</h2><span class="en">/ Where to bet</span></div>
+  <div class="prio" id="prioGrid"></div>
 </div></section>
 
 <section id="src"><div class="wrap">
@@ -453,7 +464,12 @@ html=html.replace('<a href="#prio">立项</a>', '<a href="#prio">立项</a>'+NAV
 html=html.replace('</style>', CSSADD+'\n</style>')
 html=html.replace('<div id="modelSlot"></div>', MODEL_SEC)
 html=html.replace('<div id="oppSlot"></div>', OPP_SEC)
+html=html.replace('<div id="ddSlot"></div>', DD_SEC)
+html=html.replace('<div id="failSlot"></div>', FAIL_SEC)
 html=html.replace('<footer>', SECS+'\n<footer>')
+# 结论/立项内容注入必须在 SECS 插入之后（占位符此时才存在）
+html=html.replace('<div class="concl" id="conclGrid"></div>', '<div class="concl" id="conclGrid">'+conclGrid+'</div>')
+html=html.replace('<div class="prio" id="prioGrid"></div>', '<div class="prio" id="prioGrid">'+prioGrid+'</div>')
 html=html.replace('</body>', '<script>'+SRCJS+'</script>\n</body>')
 
 OUT='世界级爆款小游戏_研究看板_完整版.html'
