@@ -270,8 +270,8 @@ tier=''.join(
     f'<div class="tc-tier-item"><b>{esc(c["name"])}</b><span>{esc(c["cn"])}</span><em>{sc(c["score"])} 分</em></div>'
     for c in top6)
 bb_score=sc(bb['score']) if bb else 91
-concl_top=f'''<p class="tc-h">若以"全球下载量 / 触达规模"为尺，最火的世界级爆款小游戏是 <b>Block Blast!（方块爆破）</b>：
-累计装机 <b>5.5 亿次</b>、2025 年 3–5 月连续三个月 Sensor Tower 全球第一；综合评分 <b>{bb_score} 分</b>，
+concl_top=f'''<p class="tc-h">若以"全球下载量 / 触达规模"为尺，下载量口径下最火的世界级爆款小游戏是 <b>Block Blast!（方块爆破）</b>：
+累计装机 <b>5.5 亿次</b>、2025 年 3–5 月连续三个月 Sensor Tower 全球第一；综合评分 <b>{bb_score} 分</b>（低于纯玩法/机制向的 Stumble Guys＝100，但下载规模断层领先），
 是纯轻量解谜品类里唯一登顶全球的小游戏。</p>
 <div class="tc-reason">
   <div class="tc-reason-h">它为什么这么火（三层结构与七维证据）</div>
@@ -285,9 +285,10 @@ concl_top=f'''<p class="tc-h">若以"全球下载量 / 触达规模"为尺，最
   <p class="tc-note">诚实边界：其"文化普适"维度仅 3 分——统治力偏欧美主导，并非在所有文化区都原生成立；此点恰是立项时应主动补足的（按生态重做回流触发器）。</p>
 </div>
 <div class="tc-tier">
-  <div class="tc-tier-h">同属"最火梯队"的世界级爆款（按综合分）</div>
+  <div class="tc-tier-h">综合评分最高的梯队（按综合分排序 · 与上方"下载量最火"口径不同）</div>
   <div class="tc-tier-grid">{tier}</div>
-  <p class="tc-foot">若改以"同时在线纪录"为尺，最火的是 <b>Grow a Garden（种植花园）</b>——2200 万同时在线世界纪录，Roblox 生态内验证的"离线成长＋UGC"结构。</p>
+  <p class="tc-foot">注：上方 Block Blast! 综合分 {bb_score}，未进综合分前 6（最高 Stumble Guys＝100）——它胜在<b>下载规模</b>而非综合评分，两把尺衡量不同维度，请勿混读。
+  若改以"同时在线纪录"为尺，最高的是 <b>Grow a Garden（种植花园）</b>——2200 万同时在线世界纪录，Roblox 生态内验证的"离线成长＋UGC"结构。</p>
 </div>'''
 
 # chips（玩法 / 生态），静态展示
