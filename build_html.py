@@ -223,9 +223,10 @@ footer b{color:var(--ink)}
 
 <!-- 核心样本 -->
 <section id="core"><div class="wrap">
-  <div class="sec-head"><span class="no">03</span><h2>核心样本看板</h2><span class="en">/ 36 Core Cases</span></div>
-  <p class="lead">以下 36 个案例同时跨越"小游戏 + 爆款 + 世界级"三道门槛，按综合分由高到低静态陈列。</p>
+  <div class="sec-head"><span class="no">03</span><h2>核心样本看板</h2><span class="en">/ 29 New-Gen + 7 Anchors</span></div>
+  <p class="lead">上方 29 个为 2020 年前后崛起的"新一代"核心案例（按综合分由高到低）；下方另单列 7 个 2010–2014 年的"经典机制锚点"——用于证明消除/吞噬/跑酷/合成/种植等动作核心跨文化成立，并非新一代爆款本身。</p>
   <div class="grid-cases" id="caseGrid"></div>
+  <div id="anchorSlot"></div>
 </div></section>
 
 <!-- 数据 -->

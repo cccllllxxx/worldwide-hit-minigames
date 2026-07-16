@@ -16,6 +16,10 @@ W = [0.15, 0.10, 0.20, 0.15, 0.15, 0.15, 0.10]
 CORE = ['C001','C007','C008','C010','C011','C012','C013','C014','C015','C016','C017','C018','C019',
         'C021','C022','C023','C025','C026','C033','C034','C035','C036','C037','C039','C040','C042',
         'C043','C044','C045','C046','C047','C048','C049','C050','C059','C061']
+# 2010–2014 经典机制锚点：证明"消除/吞噬/跑酷/合成/种植"等动作核心跨文化成立，
+# 并非新一代爆款本身。从核心网格单列，保持"新一代"网格纯净（核心样本计数仍按研究口径 36）。
+ANCHOR=['C021','C022','C023','C025','C039','C042','C044']
+ANCHOR_SET=set(ANCHOR)
 EXCL = ['C030','C031','C032']
 BND = {'A':['C002','C003','C004','C005','C055'],'B':['C058','C062'],'C':['C051','C052','C057'],
        'D':['C053','C054','C056','C060'],'E':['C020','C038'],'F':['C006','C009','C027','C028','C029','C041','C024']}
@@ -153,7 +157,7 @@ ecoArr=[{'k':k,'v':v} for k,v in ecoCount.items()]; ecoArr.sort(key=lambda d:-d[
 # 综合分分布（核心）
 buckets=[['<60',0],['60–69',0],['70–79',0],['80–89',0],['90–100',0]]
 for c in cases:
-    if c['cls']=='core' and c['score'] is not None:
+    if c['cls']=='core' and c['id'] not in ANCHOR_SET and c['score'] is not None:
         s=c['score']
         if s<60: buckets[0][1]+=1
         elif s<70: buckets[1][1]+=1
@@ -175,7 +179,9 @@ chartEco=hbars(ecoArr, ecoArr[0]['v'])
 
 # 案例卡（核心，默认按综合分降序）
 core=[c for c in cases if c['cls']=='core']
-core.sort(key=lambda c:-sc(c['score']))
+core_newgen=[c for c in core if c['id'] not in ANCHOR_SET]   # 29 个真正新一代
+anchor=[c for c in core if c['id'] in ANCHOR_SET]           # 7 个经典机制锚点
+core_newgen.sort(key=lambda c:-sc(c['score']))
 # ---------- 游戏"清晰简介"字典（投资人视角：这是什么 + 为什么火） ----------
 # desc：2 句内说清品类/核心循环 + 世界级信号；wiki：用于抓取真实配图的维基条目
 GAME_DESC = {
@@ -235,7 +241,7 @@ try:
 except Exception:
     IMG={}
 
-def case_card(c):
+def case_card(c, tag=''):
     s=c['score']; scv=sc(s)
     col='#16a34a' if (s or 0)>=85 else '#4f46e5' if (s or 0)>=75 else '#d97706' if (s or 0)>=65 else '#e11d48'
     eco=c['eco'].split('/')[0].strip()
@@ -244,20 +250,22 @@ def case_card(c):
     bg=['#4f46e5','#0ea5e9','#16a34a','#d97706','#db2777','#7c3aed'][hash(c['id'])%6]
     cv=f'<img src="{img}" alt="{esc(c["name"])}" onerror="this.remove()">' if img else ''
     desc=GAME_DESC.get(c['id'],{}).get('desc','')
+    tag_html=f'<span class="anchor-tag">{esc(tag)}</span>' if tag else ''
     return f'''<div class="case">
       <div class="cv" style="background:{bg}"><span class="mono">{initial}</span>{cv}</div>
-      <div class="top"><div><div class="nm">{esc(c['name'])}</div><div class="cn">{esc(c['cn'])} · {esc(c['id'])}</div></div>
+      <div class="top"><div><div class="nm">{esc(c['name'])}</div><div class="cn">{esc(c['cn'])} · {esc(c['id'])} {tag_html}</div></div>
       <div class="score" style="background:{col}">{'%g'%scv}<small>分</small></div></div>
       <div class="desc">{esc(desc)}</div>
       <div class="meta"><span class="pill">{esc(c['year'])}</span><span class="pill g">{esc(c['gameplay'])}</span><span class="pill a">{esc(eco)}</span></div>
       <div class="scale">{esc(c['scale'])}</div>
       <div class="path">🌍 {esc(c['path'])}</div>
     </div>'''
-caseGrid=''.join(case_card(c) for c in core)
+caseGrid=''.join(case_card(c) for c in core_newgen)
+anchorGrid=''.join(case_card(c, tag='经典锚点') for c in anchor)
 
 # 结论前置（数据驱动，静态）
-bb=next((c for c in core if c['id']=='C001'), None)
-top6=sorted(core, key=lambda c:-sc(c['score']))[:6]
+bb=next((c for c in core_newgen if c['id']=='C001'), None)
+top6=sorted(core_newgen, key=lambda c:-sc(c['score']))[:6]
 tier=''.join(
     f'<div class="tc-tier-item"><b>{esc(c["name"])}</b><span>{esc(c["cn"])}</span><em>{sc(c["score"])} 分</em></div>'
     for c in top6)
@@ -284,7 +292,7 @@ concl_top=f'''<p class="tc-h">若以"全球下载量 / 触达规模"为尺，最
 
 # chips（玩法 / 生态），静态展示
 gpSet=[]; ecoSet=[]
-for c in core:
+for c in core_newgen:
     if c['gameplay'] not in gpSet: gpSet.append(c['gameplay'])
     e=c['eco'].split('/')[0].strip()
     if e not in ecoSet: ecoSet.append(e)
@@ -439,6 +447,14 @@ CSSADD='''
 .case .cv .mono{font-size:42px;font-weight:900;color:#fff;opacity:.92;text-shadow:0 2px 8px rgba(0,0,0,.25)}
 .case .desc{font-size:12.8px;line-height:1.6;color:var(--slate);background:var(--soft);border-radius:9px;padding:9px 11px;flex:0 0 auto}
 .case .top{margin-top:2px}
+/* 经典机制锚点标签 + 独立参照区 */
+.anchor-tag{display:inline-block;font-size:10.5px;font-weight:800;color:#fff;background:#b45309;border-radius:6px;padding:1px 7px;margin-left:6px;vertical-align:middle;letter-spacing:.3px}
+.anchor-sec{margin-top:30px;padding:20px 22px 8px;border:1px dashed #d6b48a;border-radius:14px;background:#fffaf3}
+.anchor-h{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:8px}
+.anchor-h .tag{font-size:12px;font-weight:800;color:#fff;background:#b45309;border-radius:8px;padding:4px 11px}
+.anchor-h h3{font-size:17px;margin:0;color:#7c2d12}
+.anchor-lead{font-size:13.5px;line-height:1.75;color:var(--slate);margin:0 0 14px;max-width:1000px}
+.anchor-lead b{color:#b45309}
 /* 深度拆解：头图 + 简介 */
 .dd-head{display:flex;gap:12px;align-items:flex-start;margin-bottom:10px}
 .dd-head .cv{height:72px;width:72px;flex:0 0 72px;border-radius:11px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
@@ -512,6 +528,14 @@ FAIL_SEC=f'''
   <div class="fail-grid">{fail_html}</div>
 </div></section>
 '''
+ANCHOR_SEC=f'''
+<div class="anchor-sec">
+  <div class="anchor-h"><span class="tag">经典机制锚点 · 历史参照</span><h3>7 个 2010–2014 年的"老游戏"为什么仍在样本里？</h3></div>
+  <p class="anchor-lead">它们不是"新一代爆款"，而是<b>机制有效性的证明</b>：糖果传奇（2012）、水果忍者（2010）等定义了三消、体感等动作核心，后续所有新爆款都只是同一机制的迭代。把它们从上方"新一代"网格单列，是为了保持核心论点纯净，同时保留"哪些机制跨文化成立"的证据链。</p>
+  <div class="grid-cases" id="anchorGrid">{anchorGrid}</div>
+</div>
+'''
+
 SECS=f'''
 <section id="concl"><div class="wrap">
   <div class="sec-head"><span class="no">10</span><h2>七大核心结论</h2><span class="en">/ Conclusions</span></div>
@@ -553,6 +577,7 @@ html=html.replace('<div id="modelSlot"></div>', MODEL_SEC)
 html=html.replace('<div id="oppSlot"></div>', OPP_SEC)
 html=html.replace('<div id="ddSlot"></div>', DD_SEC)
 html=html.replace('<div id="failSlot"></div>', FAIL_SEC)
+html=html.replace('<div id="anchorSlot"></div>', ANCHOR_SEC)
 html=html.replace('<footer>', SECS+'\n<footer>')
 # 结论/立项内容注入必须在 SECS 插入之后（占位符此时才存在）
 html=html.replace('<div class="concl" id="conclGrid"></div>', '<div class="concl" id="conclGrid">'+conclGrid+'</div>')
