@@ -176,13 +176,70 @@ chartEco=hbars(ecoArr, ecoArr[0]['v'])
 # 案例卡（核心，默认按综合分降序）
 core=[c for c in cases if c['cls']=='core']
 core.sort(key=lambda c:-sc(c['score']))
+# ---------- 游戏"清晰简介"字典（投资人视角：这是什么 + 为什么火） ----------
+# desc：2 句内说清品类/核心循环 + 世界级信号；wiki：用于抓取真实配图的维基条目
+GAME_DESC = {
+ 'C001':{'desc':'超休闲方块消除——把同色方块拖到一起消除，规则 3 秒可懂。累计下载 5.5 亿次，2025 年连续多月登顶全球手游下载榜，是"极简玩法 + 全球买量"跑通的世界级样本。'},
+ 'C007':{'desc':'Roguelike 弹幕射击——自动射击、手动走位躲弹，每关随机选技能。开创"放置 + 肉鸽"移动端范式，是国产游戏出海标杆之一。'},
+ 'C008':{'desc':'移动端"吸血鬼幸存者 Like"——自动开火清怪、手动走位，越久越强。把 PC 肉鸽生存压缩成单手可玩的超休闲爆款。'},
+ 'C010':{'desc':'三消（Match-3）手游——经典"交换相邻宝石消除"，靠角色 IP 与关卡叙事驱动。全球三消收入 Top 级别，是"小游戏外壳 + 重内容供给"的典范。'},
+ 'C011':{'desc':'Roblox 平台上的种植经营游戏——种菜、收获、交易，离线也在长。曾创下单平台 2200 万同时在线（CCU）纪录，是 UGC 内容容器的极致案例。'},
+ 'C012':{'desc':'Roblox 收集合成游戏——偷走并饲养"脑腐"怪物，靠离谱梗传播。2025 年现象级，验证"短视频梗 + 收集循环"的爆发力。'},
+ 'C013':{'desc':'Roblox 换装社交游戏——限时搭配走秀、玩家互评。是"表达型 UGC + 青少年社交"的高留存样本。'},
+ 'C014':{'desc':'Roblox 角色扮演——在小镇里扮演日常角色、自由社交。低规则高自由，是 Roblox 长期常青的"一起玩"范式。'},
+ 'C015':{'desc':'Roblox 领养宠物收集游戏——孵蛋、养宠物、交易。曾长期占据 Roblox 同时在线榜首，是"收集 + 交易 UGC"的始祖级样本。'},
+ 'C016':{'desc':'多人闯关派对游戏（类"糖豆人"）——最多数十人同场障碍竞速。跨移动/PC/主机，是"合作竞速 + 搞笑物理"的跨文化爆款。'},
+ 'C017':{'desc':'太空狼人杀——4–15 人合作做任务，内鬼暗中破坏。2020 年靠直播/短视频引爆全球，是"社交推理 + 共同事件"的标杆。'},
+ 'C018':{'desc':'PC 肉鸽生存游戏——自动战斗、手动升级、越战越爽。把"割草"做成极致爽感并反向输出移动端，定义了一个品类。'},
+ 'C019':{'desc':'物理合成游戏——相同水果相撞合并成更大的，直到西瓜。极简物理 + 合成反馈，国内"合成大西瓜"即其爆款仿作。'},
+ 'C020':{'desc':'Web 文字猜词游戏——每天一题、六次猜五字母词。极简 + 社交分享截图，引爆全球日报式习惯，后被《纽约时报》收购。'},
+ 'C021':{'desc':'跑酷手游——无尽躲避列车与警察。全球累计下载最高的手游之一，是"单手操作 + 持续内容"的长线爆款。'},
+ 'C022':{'desc':'三消鼻祖手游——交换糖果三连消除，关卡递进。定义了移动三消品类，年全球收入长期 Top。'},
+ 'C023':{'desc':'体感切割游戏——滑动切水果、躲炸弹。触屏体感的开山作之一，跨多终端常青。'},
+ 'C024':{'desc':'数字合成网页游戏——滑动合并相同数字直到 2048。极简规则病毒式传播，催生海量仿作，是"数字合成"范式源头。'},
+ 'C025':{'desc':'极简闯关游戏——像"青蛙过河"无限前进躲车流。像素低面风 + 一指操作，是"超休闲美学"代表作。'},
+ 'C026':{'desc':'io 类生存游戏——操控光蛇吃光点变长、别撞别人。浏览器即开即玩，定义".io"多人在线品类。'},
+ 'C027':{'desc':'竞技多人手游——3v3 短局对战、多种模式。Supercell 把 MOBA/大逃杀压缩成 3 分钟一局的世界级样本。'},
+ 'C028':{'desc':'卡牌对战手游——实时出牌、推塔。Supercell 把"卡牌 + 塔防 + 实时对战"融合，全球电竞化成功案例。'},
+ 'C029':{'desc':'AR 收集游戏——现实地图抓宝可梦、道馆对战。把"收集 + 地理 LBS"做成全球现象，重新定义 AR 游戏。'},
+ 'C030':{'desc':'微信小游戏三消——两层消消乐，第二关极难。国民级传播（国内），但跨文化=0，是衡量"国民级≠世界级"的反例。'},
+ 'C031':{'desc':'微信小游戏极简——按住蓄力跳方块。2017 年微信小游戏开山之作，验证"即点即玩"的社交传播。'},
+ 'C032':{'desc':'微信小游戏生存射击——自动开火、手动走位。把 Survivor.io 范式搬进微信生态的国产爆款。'},
+ 'C033':{'desc':'第一人称猫模拟——扮演猫搞破坏、逗主人。靠 TikTok/短视频自然传播爆红，是"声控/体感 + 短视频"新传播样本。'},
+ 'C034':{'desc':'数字桌游——把传统 Ludo/飞行棋搬到手机，跨代同玩。印度及南亚国民级，是"传统玩法数字化 + 社交"的跨文化样本。'},
+ 'C035':{'desc':'合并叙事手游——三消/合并推进剧情、装修餐厅。是"合并 + 剧情 + 经营"长线变现的标杆。'},
+ 'C036':{'desc':'装扮解谜手游——消除关卡解锁人物改造。是"三消 + 装扮叙事"组合玩法的代表。'},
+ 'C037':{'desc':'三消 + 装修经营——消消乐推进豪宅翻修。是"三消外壳 + 装修目标"长线留存范式。'},
+ 'C038':{'desc':'放置收集游戏——青蛙自主旅行、寄回明信片。2018 年国内现象级"佛系养成"，低交互高情感。'},
+ 'C039':{'desc':'放置收集游戏——摆碗等猫来、收集猫与纪念品。日本现象级"放置治愈"，定义了放置收集品类。'},
+ 'C040':{'desc':'合并解谜手游——合并物品解锁剧情与庄园。是"合并机制 + 悬疑叙事"的长线样本。'},
+ 'C041':{'desc':'转盘 + 建造社交手游——转轮得币、抢朋友、建村庄。靠海量买量 + 社交劫掠循环，全球收入常青。'},
+ 'C042':{'desc':'虚拟宠物养成——养电子猫、喂食互动。是"虚拟宠物 + 长期养成"移动端始祖级爆款。'},
+ 'C006':{'desc':'派对闯关手游（网易）——类糖豆人，DIY 地图 + 社交。国内派对游戏天花板，是"派对 + UGC 地图"的样本。'},
+ 'C009':{'desc':'棋盘社交手游——掷骰走格子、建地标、抢朋友。2023 年现象级，是"经典 IP + 社交劫掠 + 高频日常"的变现怪兽。'},
+ 'C003':{'desc':'4X 战略（SLG）手游的小游戏化——末日生存、建城、结盟。把重度 SLG 压缩成轻量可玩，全球收入破 33 亿美元。'},
+ 'C049':{'desc':'音乐节奏手游——踩音符弹钢琴/歌曲。是"音乐 + 节奏 + UGC 曲库"的低成本爆款范式。'},
+}
+
+try:
+    IMG=json.load(open('game_img.json',encoding='utf-8'))
+except Exception:
+    IMG={}
+
 def case_card(c):
     s=c['score']; scv=sc(s)
     col='#16a34a' if (s or 0)>=85 else '#4f46e5' if (s or 0)>=75 else '#d97706' if (s or 0)>=65 else '#e11d48'
     eco=c['eco'].split('/')[0].strip()
+    img=IMG.get(c['id'],'')
+    initial=esc((c['name'] or '?')[0])
+    bg=['#4f46e5','#0ea5e9','#16a34a','#d97706','#db2777','#7c3aed'][hash(c['id'])%6]
+    cv=f'<img src="{img}" alt="{esc(c["name"])}" onerror="this.remove()">' if img else ''
+    desc=GAME_DESC.get(c['id'],{}).get('desc','')
     return f'''<div class="case">
+      <div class="cv" style="background:{bg}"><span class="mono">{initial}</span>{cv}</div>
       <div class="top"><div><div class="nm">{esc(c['name'])}</div><div class="cn">{esc(c['cn'])} · {esc(c['id'])}</div></div>
       <div class="score" style="background:{col}">{'%g'%scv}<small>分</small></div></div>
+      <div class="desc">{esc(desc)}</div>
       <div class="meta"><span class="pill">{esc(c['year'])}</span><span class="pill g">{esc(c['gameplay'])}</span><span class="pill a">{esc(eco)}</span></div>
       <div class="scale">{esc(c['scale'])}</div>
       <div class="path">🌍 {esc(c['path'])}</div>
@@ -300,8 +357,15 @@ for s in sources:
     src_rows+=f'''<tr data-cat="{esc(s['cat'])}" data-text="{esc(txt)}"><td>{esc(s['id'])}</td><td>{esc(s['cat'])}</td><td>{esc(s['org'])}</td><td>{esc(s['title'])}</td><td>{esc(s['date'])}</td><td>{esc(s['concl'])}</td><td><span class="badge {cred}">{esc(s['cred'])}</span></td><td>{link}</td></tr>'''
 src_html=f'''<div class="src-controls"><input id="srcSearch" placeholder="搜索机构 / 标题 / 结论…"><select id="srcCat">{cat_opts}</select><span class="count-note" id="srcCnt"></span></div>
 <table class="src-table"><thead><tr><th>来源ID</th><th>类别</th><th>机构/作者</th><th>标题</th><th>日期</th><th>关键结论/用途</th><th>可信度</th><th>链接</th></tr></thead><tbody id="srcBody">{src_rows}</tbody></table>'''
+def _dd_head(d):
+    img=IMG.get(d['id'],'')
+    initial=esc((d['game'] or '?')[0])
+    bg=['#4f46e5','#0ea5e9','#16a34a','#d97706','#db2777','#7c3aed'][hash(d['id'])%6]
+    cv=f'<img src="{img}" alt="{esc(d["game"])}" onerror="this.remove()">' if img else ''
+    desc=GAME_DESC.get(d['id'],{}).get('desc','')
+    return f'<div class="dd-head"><div class="cv sm" style="background:{bg}"><span class="mono">{initial}</span>{cv}</div><div><h4>{esc(d["game"])} <span class="oid">{esc(d["id"])}</span></h4><div class="dd-desc">{esc(desc)}</div></div></div>'
 dd_html=''.join(
-    f'''<div class="dd"><h4>{esc(d['game'])} <span class="oid">{esc(d['id'])}</span></h4><dl>
+    f'''<div class="dd">{_dd_head(d)}<dl>
     <dt>前10秒</dt><dd>{esc(d['pre10'])}</dd><dt>前30秒反馈</dt><dd>{esc(d['pre30'])}</dd>
     <dt>首次会话结构</dt><dd>{esc(d['session'])}</dd><dt>D1 回访理由</dt><dd>{esc(d['d1'])}</dd>
     <dt>D7 回访理由</dt><dd>{esc(d['d7'])}</dd><dt>自然传播事件</dt><dd>{esc(d['spread'])}</dd>
@@ -359,6 +423,20 @@ CSSADD='''
 .b-a{background:var(--soft);color:var(--indigo)}.b-b{background:var(--soft2);color:var(--teal)}.b-c{background:var(--soft3);color:var(--amber)}
 .src-controls{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;align-items:center}
 .src-controls input{border:1px solid var(--line);border-radius:10px;padding:9px 12px;font-size:13.5px;min-width:240px;background:#fff}
+
+/* 游戏卡片：图 + 清晰简介 */
+.case .cv{height:120px;border-radius:10px;margin:-4px -4px 4px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.case .cv img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.case .cv .mono{font-size:42px;font-weight:900;color:#fff;opacity:.92;text-shadow:0 2px 8px rgba(0,0,0,.25)}
+.case .desc{font-size:12.8px;line-height:1.6;color:var(--slate);background:var(--soft);border-radius:9px;padding:9px 11px;flex:0 0 auto}
+.case .top{margin-top:2px}
+/* 深度拆解：头图 + 简介 */
+.dd-head{display:flex;gap:12px;align-items:flex-start;margin-bottom:10px}
+.dd-head .cv{height:72px;width:72px;flex:0 0 72px;border-radius:11px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.dd-head .cv.sm img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.dd-head .cv .mono{font-size:30px;font-weight:900;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.25)}
+.dd-head h4{margin:0 0 4px}
+.dd-desc{font-size:12.8px;line-height:1.6;color:var(--slate)}
 .src-controls select{border:1px solid var(--line);border-radius:10px;padding:9px 12px;font-size:13.5px;background:#fff}
 .src-table{width:100%;border-collapse:collapse;font-size:12.5px;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden}
 .src-table th,.src-table td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
